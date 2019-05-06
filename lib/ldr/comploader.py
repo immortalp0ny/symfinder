@@ -3,8 +3,8 @@ import sys
 import importlib
 import inspect
 
-from lib.logger import Logger
-from lib.errors import ComparatorNotFound
+from ..logger import Logger
+from ..errors import ComparatorNotFound, ComparatorError
 
 
 class ComparatorLoader:
@@ -12,15 +12,19 @@ class ComparatorLoader:
     VAR_NAME_DESCRIPTION = "COMP_DESCRIPTION"
     VAR_NAME_ID = "COMP_ID"
 
-    def __init__(self, comparators_path="../comparators", comparators_id="c_"):
+    def __init__(self, comparators_path="../../comparators", comparators_id="c_"):
         self.__logger = Logger("CL")
         self.__comps = self._load(comparators_path, comparators_id)
 
     def _load(self, comparators_path, comparators_id):
-        dir_path = os.path.dirname(os.path.realpath(__file__)) + comparators_path
+        dir_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), comparators_path)
         sys.path.append(dir_path)
-        modules_names = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))
-                         and comparators_id in f and f[-2:] == "py"]
+        try:
+            modules_names = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))
+                             and comparators_id in f and f[-2:] == "py"]
+        except OSError:
+            raise ComparatorError("Invalid comparators path (%s)" % dir_path)
+
         loaded_comps = {}
         for module_name in modules_names:
             m = importlib.import_module(module_name[:-3])

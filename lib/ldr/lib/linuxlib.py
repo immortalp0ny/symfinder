@@ -31,3 +31,4 @@ class LinuxLibLoader(LibLoader):
     def __init__(self):
         script_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
         LibLoader.__init__(self, os.path.join(script_dir, "../../../bin/elf"), ["so", "elf"], LinuxLib)
+        self._name = "linux"

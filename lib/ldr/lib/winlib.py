@@ -22,3 +22,4 @@ class WinLibLoader(LibLoader):
     def __init__(self):
         script_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
         LibLoader.__init__(self, os.path.join(script_dir, "../../../bin/pe/"), ["dll", "exe"], WinLib)
+        self._name = "win"

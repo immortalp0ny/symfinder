@@ -21,6 +21,7 @@ class ALib:
 
 class LibLoader:
     def __init__(self, libs_path, ext_marker, lib_cls):
+        self._name = "base"
         self._libs_path = libs_path
         self._lib_cls = lib_cls
 
@@ -36,6 +37,10 @@ class LibLoader:
                     lib_path = os.path.join(self._libs_path, filename)
                     self._known_libs[filename] = lib_path
                     break
+
+    @property
+    def name(self):
+        return self._name
 
     @property
     def libs(self):
