@@ -35,12 +35,19 @@ class Resolver:
     def find_symbol(self, cid, hs, libs, fmt=StringFmt()):
         resolved = []
         for h in hs:
+            is_hash_found = False
+
             for l_name in libs:
                 self._logger.log_normal("Check hash %s inside lib %s" % (phex(h), l_name))
                 for name, sym_name in self._ll.lib_symbols(l_name):
                     s = fmt.format(sym_name)
                     if self._cl.call(cid, s, h, dll_name=l_name, is_api_search=True):
                         resolved.append((sym_name, h, l_name))
+                        is_hash_found = True
+                        break
+
+                if is_hash_found:
+                    break
 
         return resolved
 
@@ -51,6 +58,7 @@ class Resolver:
                 s = fmt.format(l_name)
                 if self._cl.call(cid, s, h, dll_name=l_name, is_api_search=False):
                     resolved.append((h, l_name))
+                    break
 
         return resolved
 
