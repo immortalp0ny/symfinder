@@ -1,3 +1,4 @@
+#! /usr/bin/python
 from cli.entry import entry_point
 
 
