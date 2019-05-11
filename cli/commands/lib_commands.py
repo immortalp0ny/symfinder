@@ -40,7 +40,7 @@ def lib(comp_id, hash, file, os, fmt_append_zero, fmt_str_type, fmt_to_lower, fm
                    to_upper=fmt_to_upper)
 
     try:
-        resolved_symbols = r.find_symbol(comp_id, hashes, fmt=sf)
+        resolved_symbols = r.find_lib(comp_id, hashes, fmt=sf)
     except ComparatorNotFound as ex:
         logger.log_error("Finding error: %s" % ex.message)
         return
