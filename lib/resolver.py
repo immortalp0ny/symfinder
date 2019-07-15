@@ -57,7 +57,7 @@ class Resolver:
             for l_name in self.libs:
                 s = fmt.format(l_name)
                 if self._cl.call(cid, s, h, dll_name=l_name, is_api_search=False):
-                    resolved.append((h, l_name))
+                    resolved.append((l_name, h))
                     break
 
         return resolved
