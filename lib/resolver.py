@@ -41,6 +41,10 @@ class Resolver:
                 self._logger.log_normal("Check hash %s inside lib %s" % (phex(h), l_name))
                 for name, sym_name in self._ll.lib_symbols(l_name):
                     s = fmt.format(sym_name)
+
+                    if not s:
+                        continue
+
                     if self._cl.call(cid, s, h, dll_name=l_name, is_api_search=True):
                         resolved.append((sym_name, h, l_name))
                         is_hash_found = True
@@ -56,6 +60,10 @@ class Resolver:
         for h in hs:
             for l_name in self.libs:
                 s = fmt.format(l_name)
+
+                if not s:
+                    continue
+
                 if self._cl.call(cid, s, h, dll_name=l_name, is_api_search=False):
                     resolved.append((l_name, h))
                     break
